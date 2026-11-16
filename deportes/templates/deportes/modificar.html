@@ -1,0 +1,62 @@
+{% extends 'deportes/base.html' %}
+
+{% block titulo %}Modificar Producto{% endblock %}
+
+{% block contenido %}
+<div class="row justify-content-center">
+    <div class="col-lg-8">
+        <div class="tarjeta-custom">
+            <div class="encabezado-custom d-flex align-items-center">
+                <div class="d-inline-flex p-2 bg-white bg-opacity-10 rounded-3 me-3">
+                    <i class="bi bi-pencil-square text-warning fs-4"></i>
+                </div>
+                <div>
+                    <h4 class="mb-0 fw-bold">Actualizar Artículo: {{ producto.nombre }}</h4>
+                    <span class="small text-white-50">Edición de existencias, precios y detalles</span>
+                </div>
+            </div>
+            <div class="card-body p-4 p-md-5">
+                <form method="post">
+                    {% csrf_token %}
+                    <div class="mb-3">
+                        <label class="form-label small fw-semibold text-secondary text-uppercase">Nombre del Producto</label>
+                        {{ formulario.nombre }}
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label small fw-semibold text-secondary text-uppercase">Descripción Detallada</label>
+                        {{ formulario.descripcion }}
+                    </div>
+                    <div class="row g-3 mb-3">
+                        <div class="col-md-6">
+                            <label class="form-label small fw-semibold text-secondary text-uppercase">Categoría</label>
+                            {{ formulario.categoria }}
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label small fw-semibold text-secondary text-uppercase">Stock Disponible</label>
+                            {{ formulario.stock }}
+                        </div>
+                    </div>
+                    <div class="row g-3 mb-4">
+                        <div class="col-md-6">
+                            <label class="form-label small fw-semibold text-secondary text-uppercase">Precio Unitario ($)</label>
+                            {{ formulario.precio_unitario }}
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label small fw-semibold text-secondary text-uppercase">Fecha de Ingreso</label>
+                            {{ formulario.fecha_ingreso }}
+                        </div>
+                    </div>
+                    <div class="d-flex justify-content-between align-items-center pt-3 border-top">
+                        <a href="{% url 'listar_productos' %}" class="btn btn-outline-secondary rounded-pill px-4">
+                            <i class="bi bi-arrow-left me-1"></i>Cancelar
+                        </a>
+                        <button type="submit" class="btn btn-primary rounded-pill px-4" style="background-color: #0f766e; border-color: #0f766e;">
+                            <i class="bi bi-save2 me-1"></i>Guardar Modificaciones
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

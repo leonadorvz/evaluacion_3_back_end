@@ -1,0 +1,46 @@
+{% extends 'deportes/base.html' %}
+
+{% block titulo %}Acceso al Sistema{% endblock %}
+
+{% block contenido %}
+<div class="row justify-content-center mt-4">
+    <div class="col-md-5">
+        <div class="tarjeta-custom">
+            <div class="encabezado-custom text-center">
+                <div class="d-inline-flex p-3 bg-white bg-opacity-10 rounded-circle mb-2">
+                    <i class="bi bi-shield-lock text-warning fs-2"></i>
+                </div>
+                <h4 class="mb-0 fw-bold">Iniciar Sesión</h4>
+                <p class="small text-white-50 mb-0">Sistema de Control de Inventario Deportivo</p>
+            </div>
+            <div class="card-body p-4 p-md-5">
+                <form method="post">
+                    {% csrf_token %}
+                    <div class="mb-3">
+                        <label for="id_username" class="form-label small fw-semibold text-muted text-uppercase">Usuario</label>
+                        <div class="input-group">
+                            <span class="input-group-text bg-light border-end-0 text-muted"><i class="bi bi-person"></i></span>
+                            <input type="text" name="username" class="form-control border-start-0 ps-0" id="id_username" required autofocus placeholder="administrador o general">
+                        </div>
+                    </div>
+                    <div class="mb-4">
+                        <label for="id_password" class="form-label small fw-semibold text-muted text-uppercase">Contraseña</label>
+                        <div class="input-group">
+                            <span class="input-group-text bg-light border-end-0 text-muted"><i class="bi bi-key"></i></span>
+                            <input type="password" name="password" class="form-control border-start-0 ps-0" id="id_password" required placeholder="••••••••••••">
+                        </div>
+                    </div>
+                    <div class="d-grid">
+                        <button type="submit" class="btn boton-guardar py-2 fs-6">
+                            <i class="bi bi-box-arrow-in-right me-2"></i>Ingresar a la Plataforma
+                        </button>
+                    </div>
+                </form>
+            </div>
+            <div class="bg-light p-3 text-center small text-muted border-top">
+                <i class="bi bi-info-circle me-1"></i>Credenciales de prueba: <strong>administrador</strong> / <strong>general</strong>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

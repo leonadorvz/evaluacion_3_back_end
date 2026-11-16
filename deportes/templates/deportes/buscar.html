@@ -1,0 +1,98 @@
+{% extends 'deportes/base.html' %}
+
+{% block titulo %}Buscar Producto{% endblock %}
+
+{% block contenido %}
+<div class="tarjeta-custom mb-4">
+    <div class="encabezado-custom">
+        <h4 class="mb-0 fw-bold"><i class="bi bi-search me-2 text-warning"></i>Localizador de Productos</h4>
+        <span class="small text-white-50">Búsqueda rápida por coincidencia de nombre</span>
+    </div>
+    <div class="p-4 p-md-5">
+        <form method="get" class="row g-2 align-items-center justify-content-center">
+            <div class="col-md-8">
+                <div class="input-group input-group-lg shadow-sm rounded-3 overflow-hidden border">
+                    <span class="input-group-text bg-white border-0 text-muted ps-3"><i class="bi bi-search"></i></span>
+                    <input type="text" name="nombre" class="form-control border-0 ps-2" placeholder="Escribe el nombre del artículo (ej. Balón, Zapatillas...)" value="{{ termino }}" required>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <button type="submit" class="btn boton-guardar btn-lg w-100 py-2">
+                    <i class="bi bi-funnel-fill me-1"></i>Filtrar
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+{% if busqueda_realizada %}
+    <div class="tarjeta-custom">
+        <div class="p-3 bg-light border-bottom d-flex justify-content-between align-items-center">
+            <span class="fw-semibold text-secondary">
+                Resultados para: <strong class="text-dark">"{{ termino }}"</strong>
+            </span>
+            <span class="badge bg-secondary rounded-pill px-3 py-2">{{ productos|length }} resultado(s)</span>
+        </div>
+        <div class="p-0">
+            <div class="table-responsive">
+                <table class="table table-hover align-middle mb-0">
+                    <thead style="background-color: #f8fafc; color: #475569; font-size: 0.82rem; text-transform: uppercase;">
+                        <tr>
+                            <th class="ps-4 text-center">ID</th>
+                            <th>Producto</th>
+                            <th>Descripción</th>
+                            <th class="text-center">Categoría</th>
+                            <th class="text-center">Stock</th>
+                            <th class="text-end">Precio</th>
+                            <th class="text-center">Fecha (d-m-Y)</th>
+                            {% if user.is_superuser %}
+                                <th class="text-center pe-4">Gestión</th>
+                            {% endif %}
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for producto in productos %}
+                            <tr>
+                                <td class="ps-4 text-center fw-bold text-muted">#{{ producto.id }}</td>
+                                <td class="fw-semibold text-dark">{{ producto.nombre }}</td>
+                                <td class="text-muted small">{{ producto.descripcion }}</td>
+                                <td class="text-center">
+                                    <span class="badge rounded-pill text-dark" style="background-color: #ccfbf1; font-weight: 600;">
+                                        {{ producto.categoria }}
+                                    </span>
+                                </td>
+                                <td class="text-center">
+                                    <span class="badge rounded-pill px-3 py-1 fw-semibold bg-success-subtle text-success border border-success border-opacity-25">
+                                        {{ producto.stock }} un.
+                                    </span>
+                                </td>
+                                <td class="text-end fw-bold">${{ producto.precio_unitario }}</td>
+                                <td class="text-center text-secondary small font-monospace">{{ producto.fecha_ingreso|date:"d-m-Y" }}</td>
+                                {% if user.is_superuser %}
+                                    <td class="text-center pe-4">
+                                        <div class="d-inline-flex gap-1">
+                                            <a href="{% url 'modificar_producto' producto.id %}" class="btn btn-sm btn-outline-primary rounded-3 px-2 py-1">
+                                                <i class="bi bi-pencil-fill"></i>
+                                            </a>
+                                            <a href="{% url 'eliminar_producto' producto.id %}" class="btn btn-sm btn-outline-danger rounded-3 px-2 py-1">
+                                                <i class="bi bi-trash-fill"></i>
+                                            </a>
+                                        </div>
+                                    </td>
+                                {% endif %}
+                            </tr>
+                        {% empty %}
+                            <tr>
+                                <td colspan="{% if user.is_superuser %}8{% else %}7{% endif %}" class="text-center py-5 text-muted">
+                                    <i class="bi bi-search text-secondary opacity-50 fs-1 d-block mb-2"></i>
+                                    No se encontraron productos coincidentes con "{{ termino }}".
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+{% endif %}
+{% endblock %}
